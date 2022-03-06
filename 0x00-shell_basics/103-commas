@@ -1,3 +1,3 @@
 #!/bin/bash
-ls -mdf */ *
+ls -amp 
 
