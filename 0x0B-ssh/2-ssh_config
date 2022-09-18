@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# This is the ssh client system-wide configuration file.
+# SSH client connectis without typing password
+    HashKnownHosts yes
+    GSSAPIAuthentication yes
+    GSSAPIDelegateCredentials no
+    IdentityFile ~/.ssh/school
+    PasswordAuthentication no
