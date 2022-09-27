@@ -3,10 +3,9 @@
 sudo apt-get -y update
 sudo apt-get -y install nginx
 sudo service nginx start
-sudo chown -R $USER:$USER /var/www/html/index.nginx-debian.html
+sudo chown -R $USER:$USER /var/www/html/index.nginx-debian.html /usr/share/nginx/html/custom_404.html
 echo 'Hello World!' > /var/www/html/index.nginx-debian.html
 echo "Ceci n'est pas une page" > /usr/share/nginx/html/custom_404.html
 sed -i "s/server_name _;/server_name _;\n\trewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;\n\n\terror_page 404 \/custom_404.html;\n\tlocation = \/custom_404.html {\n\t\troot \/usr\/share\/nginx\/html;\n\t\tinternal;\n\t}/" /etc/nginx/sites-available/default
-#sed -i "s/include \/etc\/nginx\/sites-enabled\/\*;/include \/etc\/nginx\/sites-enabled\/\*;\n\tadd_header X-Served-By \"$HOSTNAME\";/" /etc/nginx/sites-available/default
-sed -i '11i\add_header X-Served-By $HOSTNAME;' /etc/nginx/nginx.conf
+sed -i "s/include \/etc\/nginx\/sites-enabled\/\*;/include \/etc\/nginx\/sites-enabled\/\*;\n\tadd_header X-Served-By \"$HOSTNAME\";/" /etc/nginx/sites-available/default
 service nginx restart
