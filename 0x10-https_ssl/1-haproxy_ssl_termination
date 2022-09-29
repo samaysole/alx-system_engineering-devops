@@ -1,0 +1,23 @@
+global
+        log /dev/log    local0
+	    stats socket /run/haproxy/admin.sock mode 660 level admin
+
+defaults
+        log     global
+        mode    http
+        option  httplog
+	    timeout connect  10s
+	    timeout client  30s
+	    timeout server  30s
+
+frontend th3gr00t-tech-frontend
+	    bind *:80
+	    bind *:443 ssl crt /etc/haproxy/certs/th3gr00t.tech.pem
+	    http-request redirect scheme https unless { ssl_fc }
+	    http-request set-header X-Forwarded-Proto https
+	    default_backend th3gr00t-tech-backend
+
+backend th3gr00t-tech-backend
+	    balance roundrobin
+	    server 23371-web-01 44.211.116.248:80 check
+	    server 23371-web-02 3.236.213.179:80 check
